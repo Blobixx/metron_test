@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+       MYSQL_DATABASE: 'metron_db'
+       MYSQL_USER: 'metron'
+       MYSQL_PASSWORD: 'metron'
+       MYSQL_ROOT_PASSWORD: 'root'
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/metron_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
